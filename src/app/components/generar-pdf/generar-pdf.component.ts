@@ -22,6 +22,14 @@ export class GenerarPdfComponent implements OnInit {
   logoDataUrl: string;
   firmaUrl: string;
 
+  hoy = new Date();
+  //Miraflores, 18 de Diciembre del 2020
+
+  // var d=new Date();
+  
+  
+ 
+
   constructor() { }
 
   ngOnInit(): void {
@@ -34,6 +42,49 @@ export class GenerarPdfComponent implements OnInit {
       result => this.firmaUrl = result
       )
 
+  }
+
+  obtenerFecha(){   
+
+    // var dia: string[] = ["Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado"];
+    // const day = dia[this.hoy.getDay()];
+
+    var mesok: string[]=["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];  
+    const mes = mesok[this.hoy.getMonth()]
+
+    let day="";
+    if (this.hoy.getDate()<10){
+      day = "0"+this.hoy.getDate();
+   }
+   else{
+     day=""+this.hoy.getDate();
+   }
+
+    let fecha: string = "Miraflores, "+ day+ " de "+ mes+ " del " + this.hoy.getFullYear();
+  
+    return fecha;
+  }
+
+  obtenerHora(){
+     //07:45 AM
+
+     // 00:01  -- 12:01  23:59
+    let minute="";
+    let temp="";
+    if(this.hoy.getHours()<12){
+      temp=" AM";
+    }else{
+      temp=" PM";  
+    }
+    
+    if (this.hoy.getMinutes()<10){
+       minute = "0"+this.hoy.getMinutes();
+    }
+    else{
+      minute = ""+this.hoy.getMinutes();
+    }
+    let hora: string = this.hoy.getHours()+ ":" + minute + temp;
+    return hora;
   }
 
 
@@ -148,6 +199,18 @@ export class GenerarPdfComponent implements OnInit {
 
 
   probandoPdf(){
+    //'SCTR5361933-S0237129-SALUD'
+    const correlativo = "5361933";
+
+    // let hoy = new Date();
+    // //Miraflores, 18 de Diciembre del 2020
+    // const fecha = "Miraflores, "+ hoy.getDay()+ " de "+ (hoy.getMonth()+1 )+ " del " + hoy.getFullYear();
+    // //07:45 AM
+    // const hora = hoy.getHours()+ ":" + hoy.getMinutes + hoy.getTime();
+    
+
+    const fechaVencimiento = "31.12.2020";
+
 
     const title = [ 
       {text: 'N°', alignment: 'center', fontSize: 10}, 
@@ -181,8 +244,8 @@ export class GenerarPdfComponent implements OnInit {
             
           },
           { text: 'SCTR5361933-S0237129-SALUD', fontSize: 9, alignment: 'left', margin: [ 0 , 15 , 10 , 10 ]},
-          { text: 'Miraflores, 18 de Diciembre del 2020', fontSize: 9,alignment: 'right', margin: [ 0 , 2 , 0 , 10 ]},
-          { text: '07:43 AM', fontSize: 9, decoration:'underline', alignment: 'right', margin: [ 0 , 2 , 0 , 10 ]},
+          { text: this.obtenerFecha() , fontSize: 9,alignment: 'right', margin: [ 0 , 2 , 0 , 10 ]},
+          { text: this.obtenerHora(), fontSize: 9, decoration:'underline', alignment: 'right', margin: [ 0 , 2 , 0 , 10 ]},
 
           { text: 'CONSTANCIA', fontSize: 11, decoration:'underline', alignment: 'center', margin: [ 5 , 2 , 10 , 20 ]},
           { text:'Por medio de la presente, dejamos constancia que los Señores:', fontSize:9, alignment: 'left', margin: [ 0 , 4 , 0 , 5 ]},
@@ -195,9 +258,9 @@ export class GenerarPdfComponent implements OnInit {
           { text: 'RELACION DE PERSONAL:', fontSize: 11, alignment: 'left', margin: [ 0 , 20 , 0 , 0 ]},
 
           {
-            
+            margin: [-5, 0, 0, 0],
             table: {
-              widths: [30, 270, 70 ,70],            
+              widths: [30, 260, 65 ,65],                       
               body: this.body           
               
             }
