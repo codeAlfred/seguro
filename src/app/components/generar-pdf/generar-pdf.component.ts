@@ -23,11 +23,8 @@ export class GenerarPdfComponent implements OnInit {
   firmaUrl: string;
 
   hoy = new Date();
-  //Miraflores, 18 de Diciembre del 2020
-
-  // var d=new Date();
   
-  
+  aumentarCorrelativo: number;
  
 
   constructor() { }
@@ -66,9 +63,7 @@ export class GenerarPdfComponent implements OnInit {
   }
 
   obtenerHora(){
-     //07:45 AM
-
-     // 00:01  -- 12:01  23:59
+    
     let minute="";
     let temp="";
     if(this.hoy.getHours()<12){
@@ -85,6 +80,63 @@ export class GenerarPdfComponent implements OnInit {
     }
     let hora: string = this.hoy.getHours()+ ":" + minute + temp;
     return hora;
+  }
+
+  obtenerFechaVencimiento(){   
+
+    var mesok: string[]=["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+
+    var mes31: string[]=["Enero","Marzo","Mayo","Julio","Agosto","Octubre","Diciembre"];
+    var mes30: string[]=["Abril","Junio","Septiembre","Noviembre"];
+    var mes28: string[]=["Febrero"];
+
+    var mesObjetivo = mesok[this.hoy.getMonth()];
+    console.log(this.hoy.getMonth());
+    console.log(mesObjetivo);
+
+    let day="";
+
+    if (mes31.includes(mesObjetivo)){
+      day="31";
+    }
+    if(mes30.includes(mesObjetivo)){
+      day="30";
+    }if(mes28.includes(mesObjetivo)){
+      day="28";
+    }
+
+    console.log(day);
+    
+    //agregando 0 al mes
+    let mes="";
+    if (this.hoy.getMonth()<10){
+      mes = "0"+(this.hoy.getMonth()+1);
+   }
+   else{
+     mes=""+(this.hoy.getMonth()+1);
+   }
+
+    
+
+    let fechaVencimiento: string =  day+ "."+ mes+ "." + this.hoy.getFullYear()+".";
+  
+    return fechaVencimiento;
+  }
+
+  correlativoMes: number = 5361933;
+  
+
+  
+  obteniendoCorrelativo(){
+    //'SCTR5361933-S0237129-SALUD'
+    // const correlativo = "5361933";
+    let correlativo="";
+    console.log(this.correlativoMes);
+    console.log(this.aumentarCorrelativo);
+
+    correlativo=""+(this.correlativoMes+this.aumentarCorrelativo);
+
+    return correlativo;
   }
 
 
@@ -199,19 +251,7 @@ export class GenerarPdfComponent implements OnInit {
 
 
   probandoPdf(){
-    //'SCTR5361933-S0237129-SALUD'
-    const correlativo = "5361933";
-
-    // let hoy = new Date();
-    // //Miraflores, 18 de Diciembre del 2020
-    // const fecha = "Miraflores, "+ hoy.getDay()+ " de "+ (hoy.getMonth()+1 )+ " del " + hoy.getFullYear();
-    // //07:45 AM
-    // const hora = hoy.getHours()+ ":" + hoy.getMinutes + hoy.getTime();
-    
-
-    const fechaVencimiento = "31.12.2020";
-
-
+  
     const title = [ 
       {text: 'N°', alignment: 'center', fontSize: 10}, 
       {text: 'APELLIDOS Y NOMBRES',alignment: 'center', fontSize: 10},
@@ -236,14 +276,10 @@ export class GenerarPdfComponent implements OnInit {
     
 		{
 			stack: [
-          {
-            
-              image: this.logoDataUrl, width: 200, height: 35, margin: [ 10 , 2 , 0 , 0 ] ,
-        
-              
-            
+          {            
+            image: this.logoDataUrl, width:190, height: 35, margin: [ 10 , 2 , 0 , 0 ] ,     
           },
-          { text: 'SCTR5361933-S0237129-SALUD', fontSize: 9, alignment: 'left', margin: [ 0 , 15 , 10 , 10 ]},
+          { text: 'SCTR'+this.obteniendoCorrelativo()+'-S0237129-SALUD', fontSize: 9, alignment: 'left', margin: [ 0 , 15 , 10 , 10 ]},
           { text: this.obtenerFecha() , fontSize: 9,alignment: 'right', margin: [ 0 , 2 , 0 , 10 ]},
           { text: this.obtenerHora(), fontSize: 9, decoration:'underline', alignment: 'right', margin: [ 0 , 2 , 0 , 10 ]},
 
@@ -253,7 +289,7 @@ export class GenerarPdfComponent implements OnInit {
           { text:'De acuerdo a lo establecido en el Decreto Supremo 003-98-SA – Normas Técnicas del Seguro Complementario de Trabajo de Riesgo, a la fecha han contratado con Rimac S.A. Entidad Prestadora de Salud la(s) póliza(s) de Seguro Complementario de Trabajo de Riesgo siguiente(s):', fontSize:9, alignment: 'justify'},
           { text: 'SCTR SALUD  N° S0237129', fontSize: 11, alignment: 'center', margin: [ 0 , 5 , 0 , 3 ]},
           { text: 'La constancia es de vigencia mensual y es renovable', fontSize: 9,alignment: 'center', margin: [ 0 , 1 , 0 , 6 ]},
-          { text: 'La presente constancia tiene vigencia hasta el 31.12.2020. A solicitud de la empresa contratante se emite la presente Constancia detallando a continuación el personal que se encuentra afiliado a la(s) póliza(s) antes mencionada(s).', fontSize: 9, alignment: 'justify'},
+          { text: 'La presente constancia tiene vigencia hasta el '+this.obtenerFechaVencimiento() +' A solicitud de la empresa contratante se emite la presente Constancia detallando a continuación el personal que se encuentra afiliado a la(s) póliza(s) antes mencionada(s).', fontSize: 9, alignment: 'justify'},
 
           { text: 'RELACION DE PERSONAL:', fontSize: 11, alignment: 'left', margin: [ 0 , 20 , 0 , 0 ]},
 

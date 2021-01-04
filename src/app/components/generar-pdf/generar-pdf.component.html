@@ -1,5 +1,13 @@
 <div class="container">
     
-    <button  class="btn btn-primary m-3 btn-block"  (click)="generatePdf()">Open PDF</button>
-    <button  class="btn btn-primary m-3 btn-block"  (click)="probandoPdf()">TEST PDF</button>
+    <!-- <button  class="btn btn-primary m-3 btn-block"  (click)="generatePdf()">Open PDF</button> -->
+
+    <p>Numero Correlativo del mes: {{correlativoMes}}</p>
+    <form action="">
+        <div class="form-group">
+            <input type="number" name="aumentarCorrelativo" placeholder="aumentar el correlativo en" [(ngModel)]="aumentarCorrelativo" class="form-control" required>
+            <button  class="btn btn-danger m-3 btn-block"  (click)="probandoPdf()"><i class="fas fa-file-pdf" size:5x></i> CREAR PDF</button>
+        </div>
+    </form>
+    
 </div>

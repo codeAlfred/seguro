@@ -6,7 +6,7 @@
                     <form class="row d-flex justify-content-between aling-items">
                         <label for="dni" class="visually-hidden">INGRESE DNI:</label>
                         <input type="text" class="form-control" name="dni" [(ngModel)]="employe.dni" placeholder="DNI">
-                        <button  class="btn btn-primary mt-3 btn-block" (click)="getEmploye(employe.dni)">SEARCH EMPLOYEE</button>
+                        <button  class="btn btn-primary mt-3 btn-block" (click)="getEmploye(employe.dni)"><i class="fas fa-search" size:5x></i>SEARCH EMPLOYEE</button>
                       </form>
                 </div>
             </div>
@@ -22,7 +22,7 @@
                     <h5>{{employe.apellido_paterno }} {{employe.apellido_materno }} {{employe.nombres}}</h5>
                     <p>DNI: </p>
                     <h5>{{employe.dni}}</h5>
-                    <button  class="btn btn-primary mt-3 btn-block" (click)="addEmployes(employe.apellido_paterno,employe.apellido_materno, employe.nombres, employe.dni)">ADD EMPLOYEE</button>
+                    <button  class="btn btn-success mt-3 btn-block" (click)="addEmployes(employe.apellido_paterno,employe.apellido_materno, employe.nombres, employe.dni)"><i class="fas fa-user-plus" size:5x></i>ADD EMPLOYEE</button>
                 </div>
             </div>
         </div>
