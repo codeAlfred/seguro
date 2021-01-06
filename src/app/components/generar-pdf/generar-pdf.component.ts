@@ -64,6 +64,7 @@ export class GenerarPdfComponent implements OnInit {
 
   obtenerHora(){
     
+    let hora="";
     let minute="";
     let temp="";
     if(this.hoy.getHours()<12){
@@ -72,14 +73,26 @@ export class GenerarPdfComponent implements OnInit {
       temp=" PM";  
     }
     
+    //agregando un 0 delante del minuto
     if (this.hoy.getMinutes()<10){
        minute = "0"+this.hoy.getMinutes();
     }
     else{
       minute = ""+this.hoy.getMinutes();
     }
-    let hora: string = this.hoy.getHours()+ ":" + minute + temp;
-    return hora;
+
+    //agregando un cero delante de la hora
+    if (this.hoy.getHours() < 10){
+      hora = "0"+this.hoy.getHours();
+   }
+   else{
+     hora = ""+this.hoy.getHours();
+   }
+
+
+    let horaCompleta: string = hora+ ":" + minute + temp;
+
+    return horaCompleta;
   }
 
   obtenerFechaVencimiento(){   
@@ -270,6 +283,11 @@ export class GenerarPdfComponent implements OnInit {
 
 
     const documentDefinition = {
+
+      info: {
+        title: 'aqui va el nombre del pdf - nombredelpdf',
+        
+        },
 
   content: [
 	
