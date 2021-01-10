@@ -5,6 +5,15 @@ import { Utils } from 'src/app/utils/Utils';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 
+//agregando la fuente arial al pdf make
+pdfMake.fonts = {
+  arial: {
+    normal: 'arial.ttf',
+    bold: 'arial.ttf',
+    italics: 'arial.ttf',
+    bolditalics: 'arial.ttf'
+  }
+}
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs; 
 
@@ -129,9 +138,7 @@ export class GenerarPdfComponent implements OnInit {
 
   //este numero correlativo debe ser llenado manualmente despues de obtener el
   //primer sctr oficial
-  correlativoMes: number = 5361933;
-  
-
+  correlativoMes: number = 5361933; 
   obteniendoCorrelativo(){
     //'SCTR5361933-S0237129-SALUD'
     // const correlativo = "5361933";
@@ -154,73 +161,89 @@ export class GenerarPdfComponent implements OnInit {
   probandoPdf(){
   
     const title = [ 
-      {text: 'N°', alignment: 'center', fontSize: 10}, 
-      {text: 'APELLIDOS Y NOMBRES',alignment: 'center', fontSize: 10},
-      {text: 'C.E/DNI/PAS/RUC', colSpan: 2, alignment: 'center', fontSize: 10}, 
+      {text: 'N°', alignment: 'center', fontSize: 10, margin: [ 0 , 2, 0 , 2 ]}, 
+      {text: 'APELLIDOS Y NOMBRES',alignment: 'center', fontSize: 10, margin: [ 0 , 2, 0 , 2 ]},
+      {text: 'C.E/DNI/PAS/RUC', colSpan: 2, alignment: 'left', fontSize: 10, margin: [ 12 , 2, 0 , 2 ]}, 
       {}
     ]
-    const subhead= [{text: 'SEDE : CONSTRUCCIÓN', colSpan: 4, alignment: 'left', fontSize: 12}, {}, {},{}]
+    const subhead= [{text: 'SEDE : CONSTRUCCIÓN', colSpan: 4, alignment: 'left', fontSize: 12, margin: [ 9 , 4, 0 , 4 ] }, {}, {},{}]
 
     this.body.push(title, subhead);
     let val = 0;
     for (let i=val; i<this.work.length; i++){
     
-        this.body.push([i+1, this.work[i][0],'DNI',this.work[i][1]]);       
-        
+      //  this.body.push([ 
+      //                   i+1 , 
+      //                   this.work[i][0]  , 
+      //                   'DNI' , 
+      //                   this.work[i][1]  
+      //                 ]);
+      this.body.push([
+        {text: i+1 ,alignment: 'center', fontSize: 11},
+        {text: this.work[i][0] ,margin: [ 2 , 2, 0 , 2 ], fontSize: 11},
+        {text: 'DNI' ,margin: [ 2 , 2, 0 , 2 ], fontSize: 11},
+        {text: this.work[i][1] , alignment: 'left', fontSize: 11,margin: [ 15 , 0, 0 , 0 ]}
+      ]);
+
+        console.log(this.body);
     }
 
 
     const documentDefinition = {
+      content: [   
+        {
+          stack: [
+              {            
+                image: this.logoDataUrl, width:190, height: 35, margin: [ 10 , 0, 0 , 0 ] ,     
+              },
+              { text: 'SCTR'+this.obteniendoCorrelativo()+'-S0237129-SALUD', fontSize: 9, alignment: 'left', margin: [ 0 , 17 , 10 , 0 ]},
+              { text: this.obtenerFecha() , fontSize: 9,alignment: 'right', margin: [ 0 , 0 , 0 , 10 ]},
+              { text: this.obtenerHora(), fontSize: 9, decoration:'underline', alignment: 'right', margin: [ 0 , 3 , 0 , 10 ]},
 
-  content: [   
-		{
-			stack: [
-          {            
-            image: this.logoDataUrl, width:190, height: 35, margin: [ 10 , 2 , 0 , 0 ] ,     
-          },
-          { text: 'SCTR'+this.obteniendoCorrelativo()+'-S0237129-SALUD', fontSize: 9, alignment: 'left', margin: [ 0 , 15 , 10 , 10 ]},
-          { text: this.obtenerFecha() , fontSize: 9,alignment: 'right', margin: [ 0 , 2 , 0 , 10 ]},
-          { text: this.obtenerHora(), fontSize: 9, decoration:'underline', alignment: 'right', margin: [ 0 , 2 , 0 , 10 ]},
+              { text: 'CONSTANCIA', fontSize: 11, decoration:'underline', alignment: 'center', margin: [ 5 , 2 , 10 , 0 ]},
+              { text:'Por medio de la presente, dejamos constancia que los Señores:', fontSize:9, alignment: 'left', margin: [ 0 , 8 , 0 , 5 ]},
+              { text:'C & R CLERQUE CONSTRUCTORA PERU SOCIEDAD ANONIMA CERRADA', fontSize:12, alignment: 'center', margin: [ 0 , 7 , 0 , 8 ]},
+              { text:'De acuerdo a lo establecido en el Decreto Supremo 003-98-SA – Normas Técnicas del Seguro Complementario de Trabajo de Riesgo, a la fecha han contratado con Rimac S.A. Entidad Prestadora de Salud la(s) póliza(s) de Seguro Complementario de Trabajo de Riesgo siguiente(s):', fontSize:9, alignment: 'justify'},
+              { text: 'SCTR SALUD  N° S0237129', fontSize: 11, alignment: 'center', margin: [ 0 , 8 , 0 , 2 ]},
+              { text: 'La constancia es de vigencia mensual y es renovable', fontSize: 9,alignment: 'center', margin: [ 0 , 1 , 0 , 13 ]},
+              { text: 'La presente constancia tiene vigencia hasta el '+this.obtenerFechaVencimiento() +' A solicitud de la empresa contratante se emite la presente Constancia detallando a continuación el personal que se encuentra afiliado a la(s) póliza(s) antes mencionada(s).', fontSize: 9, alignment: 'justify'},
 
-          { text: 'CONSTANCIA', fontSize: 11, decoration:'underline', alignment: 'center', margin: [ 5 , 2 , 10 , 20 ]},
-          { text:'Por medio de la presente, dejamos constancia que los Señores:', fontSize:9, alignment: 'left', margin: [ 0 , 4 , 0 , 5 ]},
-          { text:'C & R CLERQUE CONSTRUCTORA PERU SOCIEDAD ANONIMA CERRADA', fontSize:12, alignment: 'center', margin: [ 0 , 5 , 0 , 5 ]},
-          { text:'De acuerdo a lo establecido en el Decreto Supremo 003-98-SA – Normas Técnicas del Seguro Complementario de Trabajo de Riesgo, a la fecha han contratado con Rimac S.A. Entidad Prestadora de Salud la(s) póliza(s) de Seguro Complementario de Trabajo de Riesgo siguiente(s):', fontSize:9, alignment: 'justify'},
-          { text: 'SCTR SALUD  N° S0237129', fontSize: 11, alignment: 'center', margin: [ 0 , 5 , 0 , 3 ]},
-          { text: 'La constancia es de vigencia mensual y es renovable', fontSize: 9,alignment: 'center', margin: [ 0 , 1 , 0 , 6 ]},
-          { text: 'La presente constancia tiene vigencia hasta el '+this.obtenerFechaVencimiento() +' A solicitud de la empresa contratante se emite la presente Constancia detallando a continuación el personal que se encuentra afiliado a la(s) póliza(s) antes mencionada(s).', fontSize: 9, alignment: 'justify'},
+              { text: 'RELACION DE PERSONAL:', fontSize: 11, alignment: 'left', margin: [ 0 , 27.5 , 0 , 0 ]},
 
-          { text: 'RELACION DE PERSONAL:', fontSize: 11, alignment: 'left', margin: [ 0 , 20 , 0 , 0 ]},
-
-          {
-            margin: [-5, 0, 0, 0],
-            table: {
-              widths: [30, 260, 65 ,65],                       
-              body: this.body           
+              {
+                margin: [-5, 0, 0, 0],                
+                table: {
+                  // heights: 40,
+                  widths: [30, 260, 65 ,65],                       
+                  body: this.body                            
+                  
+                }
+              },
+              { text: 'Se expide la presente a solicitud del Asegurado/Contratante para los fines que estime convenientes.', fontSize: 9,alignment: 'left', margin: [ 2 , 10 , 0 , 6 ]},
               
-            }
-          },
-          { text: 'Se expide la presente a solicitud del Asegurado/Contratante para los fines que estime convenientes.', fontSize: 9,alignment: 'left', margin: [ 2 , 10 , 0 , 6 ]},
+              {image: this.firmaUrl, margin: [ 10 , 7 , -10 , 0 ], alignment: 'right', width: 120, height: 60},
+              { text: 'Mark Andrés Reyes Ploog', fontSize: 10, alignment: 'right', margin: [ 0 , 0 , -4 , 0]},
+              { text: 'Rimac EPS S.A. Entidad Prestadora ', fontSize: 10, alignment: 'right', margin: [ 0 , 0 , -24 , 0]},
+              { text: 'Usuario :  CR1RZAMUDM', fontSize: 8, alignment: 'left', margin: [ 0 , 0 , 0 , 0]},
+              { text: 'de Salud', fontSize: 10, alignment: 'right', margin: [ 0 , -10 , 35 , 0]},
+              
+              
+          ],
+          margin: [33, -10, 33, 0],
           
-          {image: this.firmaUrl, margin: [ 10 , 7 , -10 , 0 ], alignment: 'right', width: 120, height: 60},
-          { text: 'Mark Andrés Reyes Ploog', fontSize: 10, alignment: 'right', margin: [ 0 , 0 , -4 , 0]},
-          { text: 'Rimac EPS S.A. Entidad Prestadora ', fontSize: 10, alignment: 'right', margin: [ 0 , 0 , -24 , 0]},
-          { text: 'Usuario :  CR1RZAMUDM', fontSize: 8, alignment: 'left', margin: [ 0 , 0 , 0 , 0]},
-          { text: 'de Salud', fontSize: 10, alignment: 'right', margin: [ 0 , -10 , 35 , 0]},
-          
-          
-      ],
-      margin: [33, 0, 33, 0],
-			
-    },
+        },
 
-	],	
-  };
+      ],
+      //cambiando de fuente a Arial	
+      defaultStyle: {
+        font: 'arial'
+      }
+  };  
 
     //metodo para descargar el pdf - con su nombre definido.
-    pdfMake.createPdf(documentDefinition).download(this.nameDownload());
+    //pdfMake.createPdf(documentDefinition).download(this.nameDownload());
     //metodo para abrir el pdf en una ventana nueva
-    //pdfMake.createPdf(documentDefinition).open();
+    pdfMake.createPdf(documentDefinition).open();
 
   }
 }
