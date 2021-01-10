@@ -27,12 +27,10 @@ export class NaworkListComponent implements OnInit {
   }
 
   //obtener un empleado del servidor
-  getEmploye(dni:string){
-    console.log(dni);
+  getEmploye(dni:string){    
     this.employeService.getEmploye(dni).subscribe(
       res => {       
-        this.employe = res;
-        
+        this.employe = res;        
       },
       err => console.error(err)
     )
