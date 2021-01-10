@@ -30,8 +30,7 @@ export class NaworkListComponent implements OnInit {
   getEmploye(dni:string){
     console.log(dni);
     this.employeService.getEmploye(dni).subscribe(
-      res => {
-        console.log(res);
+      res => {       
         this.employe = res;
         
       },
@@ -41,11 +40,22 @@ export class NaworkListComponent implements OnInit {
 
   //agregar un empleado al arreglo empleados
   addEmployes(pater:string, mater:string, name: string, dni: string){
-    const fullName = pater +" " + mater+ " " + name;
-    this.worked.push([fullName, dni]);
-    console.log(this.worked);
-    this.worked.sort();
 
+   
+    let fullName1 = pater +" " + mater+ " " + name;
+
+    let fullName="";
+    if(fullName1.search("&Ntilde;")>0){
+      fullName = fullName1.replace('&Ntilde;','Ñ');
+      //console.log("reemplazando el &tilde por la ñ ::"+fullName);
+    }
+    else{
+      fullName=fullName1;
+    }
+    //console.log("existe la frase con ñ  "+fullName);
+
+    this.worked.push([fullName, dni]);    
+    this.worked.sort();
     this.cleanEmployee();
   }
  

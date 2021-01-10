@@ -183,9 +183,7 @@ export class GenerarPdfComponent implements OnInit {
         {text: this.work[i][0] ,margin: [ 2 , 2, 0 , 2 ], fontSize: 11},
         {text: 'DNI' ,margin: [ 2 , 2, 0 , 2 ], fontSize: 11},
         {text: this.work[i][1] , alignment: 'left', fontSize: 11,margin: [ 15 , 0, 0 , 0 ]}
-      ]);
-
-        console.log(this.body);
+      ]);        
     }
 
 
