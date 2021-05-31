@@ -18,6 +18,8 @@ export class NaworkListComponent implements OnInit {
     last_name: '',
     name: ''
   }; 
+
+  disabled=true;
   
   worked: any=[];
 
@@ -27,13 +29,22 @@ export class NaworkListComponent implements OnInit {
   }
 
   //obtener un empleado del servidor
-  getEmploye(dni:string){    
+  getEmploye(dni:string){ 
+    if(dni!='' && dni.length==8){ 
     this.employeService.getEmploye(dni).subscribe(
-      res => {       
-        this.employe = res;        
+      res => {
+        console.log("llego aqui")       
+        this.employe = res;   
+        this.disabled=false;
       },
       err => console.error(err)
+      
     )
+    
+  }else{
+    console.log("llenar campo dni")
+  }
+
   }
 
   //agregar un empleado al arreglo empleados
@@ -55,6 +66,7 @@ export class NaworkListComponent implements OnInit {
     this.worked.push([fullName, dni]);    
     this.worked.sort();
     this.cleanEmployee();
+    this.disabled=true;
   }
  
   //LIMPIAR CAMPOS DEL TRABAJADOR

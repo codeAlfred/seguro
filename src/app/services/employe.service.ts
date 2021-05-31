@@ -20,6 +20,12 @@ export class EmployeService {
   //obtener solo un empleado almacenado
   getEmploye(dni: string){
     //return this.http.get(`${this.PROXI_URI}/${this.API_URI}/dni/${dni}`)
-    return this.http.get(`${this.API_URI}/${dni}`)
+    
+    if(dni!=''){
+      return this.http.get(`${this.API_URI}/${dni}`)
+    }      
+    else{
+      alert("llenar campo");
+    }
   }
 }
