@@ -41,7 +41,14 @@ export class NaworkListComponent implements OnInit {
       
     )
     
-  }else{
+  }if(dni.length>8){
+    console.log("ingrese solo 8 digitos")
+  }
+  if(dni.length<8 && dni.length>0){
+    console.log("ingrese solo 8 digitos")
+  }
+
+  else{
     console.log("llenar campo dni")
   }
 
