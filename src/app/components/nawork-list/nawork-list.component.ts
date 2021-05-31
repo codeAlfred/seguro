@@ -14,9 +14,9 @@ export class NaworkListComponent implements OnInit {
   employe: Employe={
     dni: '',
     cui: '',
-    apellido_paterno: '',
-    apellido_materno: '',
-    nombres: ''
+    first_name: '',
+    last_name: '',
+    name: ''
   }; 
   
   worked: any=[];
@@ -59,13 +59,17 @@ export class NaworkListComponent implements OnInit {
  
   //LIMPIAR CAMPOS DEL TRABAJADOR
   cleanEmployee(){
-
+    /*
     this.employe.dni= '',
     this.employe.cui= '',
     this.employe.apellido_paterno= '',
     this.employe.apellido_materno= '',
-    this.employe.nombres= ''
-
+    this.employe.nombres= ''*/
+    this.employe.dni='',
+    this.employe.name='',
+    this.employe.first_name= '',
+    this.employe.last_name= '',
+    this.employe.cui= ''
   }
 
 

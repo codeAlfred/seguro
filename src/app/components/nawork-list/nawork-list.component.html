@@ -19,10 +19,10 @@
             <div class="card">
                 <div class="card-body">
                     <p>Nombres y Apellidos: </p>
-                    <h5>{{employe.apellido_paterno }} {{employe.apellido_materno }} {{employe.nombres}}</h5>
+                    <h5>{{employe.first_name }} {{employe.last_name }} {{employe.name}}</h5>
                     <p>DNI: </p>
                     <h5>{{employe.dni}}</h5>
-                    <button  class="btn btn-success mt-3 btn-block" (click)="addEmployes(employe.apellido_paterno,employe.apellido_materno, employe.nombres, employe.dni)"><i class="fas fa-user-plus m-2" size:5x></i>ADD EMPLOYEE</button>
+                    <button  class="btn btn-success mt-3 btn-block" (click)="addEmployes(employe.first_name,employe.last_name, employe.name, employe.dni)"><i class="fas fa-user-plus m-2" size:5x></i>ADD EMPLOYEE</button>
                 </div>
             </div>
         </div>
